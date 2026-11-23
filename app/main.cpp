@@ -9,7 +9,30 @@
 #include <print>
 #include <string>
 #include <vector>
+#include <iomanip>
+#include <span>
+void afficherVueNotes(std::span<const double> vue) {
+    for (double n : vue) {
+        std::cout << n << ' ';
+    }
+    std::cout << '\n';
+}
 
+double* creerNotesDynamiques(std::size_t taille, double val = 0.0) {
+    if (taille == 0) {
+        return nullptr;
+    }
+    double* ptr = new double[taille];
+    for (std::size_t i{0}; i < taille; ++i) {
+        ptr[i] = val;
+    }
+    return ptr;
+}
+
+void libererNotesDynamiques(double*& ptr) {
+    delete[] ptr;
+    ptr = nullptr;
+}
 int main()
 {
     std::println("UIN-Campus {} - TP3 : Statistiques d'une série de notes\n", uin::version());
@@ -21,6 +44,7 @@ int main()
     const int nb = uin::lireEntier("Nombre d'étudiants (1 à 200) : ", 1, 200);
 
     std::vector<double> notes;
+    notes.reserve(static_cast<std::size_t>(nb));
     for (int i{1}; i <= nb; ++i) {
         notes.push_back(uin::lireNote(std::format("Note de l'étudiant {} : ", i)));
     }
@@ -65,4 +89,22 @@ int main()
         std::println("{:<12} {} ({})", uin::libelle(m), std::string(static_cast<std::size_t>(repartition[i]), '*'), repartition[i]);
     }
     std::println("{:-<58}", "");
+    std::println("{:-<58}", "");
+
+    {
+        std::vector<double> notesTp5;
+        notesTp5.reserve(6);
+        for (int i{0}; i < 6; ++i) {
+            notesTp5.push_back(10.0 + i);
+            std::cout << "taille " << std::setw(2) << notesTp5.size()
+                      << ", capacite " << std::setw(2) << notesTp5.capacity() << '\n';
+        }
+        afficherVueNotes(notesTp5);
+
+        double* dyn = creerNotesDynamiques(3, 14.0);
+        if (dyn != nullptr) {
+            afficherVueNotes(std::span<const double>{dyn, 3});
+            libererNotesDynamiques(dyn);
+        }
+    }
 }
