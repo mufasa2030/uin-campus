@@ -1,6 +1,7 @@
 #include "uincampus/regles.hpp"
 #include "uincampus/saisie.hpp"
 #include "uincampus/version.hpp"
+#include "uincampus/note.hpp"
 #include <algorithm>
 #include <array>
 #include <cmath>

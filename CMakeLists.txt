@@ -33,6 +33,8 @@ add_library(uincampus_core
     src/version.cpp
     src/regles.cpp 
     src/saisie.cpp 
+    src/note.cpp
+    src/carte_campus.cpp
     )
 
 target_include_directories(uincampus_core PUBLIC ${PROJECT_SOURCE_DIR}/include)
